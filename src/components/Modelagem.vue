@@ -59,15 +59,15 @@ var editor;
 
 // CustomUserObject
 // Objeto de usuário personalizado - empresa
-window.Empresa = function (name) {
-  this.name = name = "Empresa";
-  this.clone = function () {
-    return mxUtils.clone(this);
-  };
-};
+// window.Empresa = function (name) {
+//   this.name = name = "Tipo";
+//   this.clone = function () {
+//     return mxUtils.clone(this);
+//   };
+// };
 
 window.Cliente = function (name) {
-  this.name = name = "Cliente";
+  this.name = name = "Tipo";
   this.clone = function () {
     return mxUtils.clone(this);
   };
@@ -111,7 +111,8 @@ export default {
         try {
           v1.geometry.x = pt.x;
           v1.geometry.y = pt.y;
-          v1.style = editor.graph.stylesheet.getDefaultEdgeStyle();
+          //v1.style = editor.graph.stylesheet.getDefaultEdgeStyle();
+
           v1.geometry.alternateBounds = new mxRectangle(
             0,
             0,
@@ -119,6 +120,15 @@ export default {
             v1.geometry.height,
             ""
           );
+
+          // v1.geometry.alternateBounds = new mxImage(
+          //   require("../assets/handle-connect.png"),
+          //   108,
+          //   108,
+          //   v1.geometry.width,
+          //   v1.geometry.height,
+          //   ""
+          // );
 
           graph.addCell(v1, parent);
         } finally {
@@ -130,11 +140,32 @@ export default {
 
       // =================================================================================================================
       //Cria a imagem que serve de ícone da barra lateral (fonte de arrastar) - agregador
+      let texto = document.createElement("div");
+      texto.style.cursor = "pointer";
+      texto.style.backgroundColor = "transparent";
+      //texto.style.webkitTransform = "skew(20deg)";
+      texto.style.margin = "25px";
+      texto.style.width = "200px";
+      texto.style.height = "60px";
+      texto.style.textAlign = "center";
+      texto.style.display = "flex";
+      texto.style.flexWrap = "wrap";
+      texto.style.alignItems = "center";
+      texto.style.justifyContent = "center";
+      texto.innerHTML = '<div style="color: #00000;">Texto... texto</div>';
+      sidebar.appendChild(texto);
+
+      // Creates the image which is used as the drag icon (preview)
+      let dragTexto = texto.cloneNode(true);
+      mxUtils.makeDraggable(texto, graph, funct, dragTexto);
+
+      // =================================================================================================================
+      //Cria a imagem que serve de ícone da barra lateral (fonte de arrastar) - agregador
       let agregador = document.createElement("div");
       agregador.style.cursor = "pointer";
       agregador.style.backgroundColor = "red";
       agregador.style.webkitTransform = "skew(20deg)";
-      agregador.style.margin = "30px";
+      agregador.style.margin = "25px";
       agregador.style.width = "200px";
       agregador.style.height = "60px";
       agregador.style.textAlign = "center";
@@ -154,8 +185,9 @@ export default {
       //Cria a imagem que serve de ícone da barra lateral (fonte de arrastar) - Cliente do cliente
       let clienteDoCliente = document.createElement("div");
       clienteDoCliente.style.cursor = "pointer";
-      clienteDoCliente.style.backgroundColor = "gray";
-      clienteDoCliente.style.margin = "30px";
+      //clienteDoCliente.style.backgroundColor = "gray";
+      clienteDoCliente.style.background = `url("${require("../assets/teste.png")}")`;
+      clienteDoCliente.style.margin = "25px";
       clienteDoCliente.style.width = "200px";
       clienteDoCliente.style.height = "60px";
       clienteDoCliente.style.textAlign = "center";
@@ -164,7 +196,7 @@ export default {
       clienteDoCliente.style.alignItems = "center";
       clienteDoCliente.style.justifyContent = "center";
       clienteDoCliente.innerHTML =
-        '<div style="color: #00000"><strong>Cliente do Cliente</strong></div>';
+        '<div style="color: #00000;"><strong>Cliente do Cliente</strong></div>';
       sidebar.appendChild(clienteDoCliente);
 
       // Creates the image which is used as the drag icon (preview)
@@ -179,8 +211,9 @@ export default {
       //Cria a imagem que serve de ícone da barra lateral (fonte de arrastar) - intermediario
       let intermediario = document.createElement("div");
       intermediario.style.cursor = "pointer";
-      intermediario.style.backgroundColor = "green";
-      intermediario.style.margin = "30px";
+      //intermediario.style.backgroundColor = "green";
+      intermediario.style.background = `url("${require("../assets/intermediario.png")}")`;
+      intermediario.style.margin = "25px";
       intermediario.style.width = "200px";
       intermediario.style.height = "60px";
       intermediario.style.textAlign = "center";
@@ -188,9 +221,8 @@ export default {
       intermediario.style.flexWrap = "wrap";
       intermediario.style.alignItems = "center";
       intermediario.style.justifyContent = "center";
-      //intermediario.style.position = "relative";
       intermediario.innerHTML =
-        '<div style="color: #00000"><strong>Intermediário</strong></div>';
+        '<div style="color: #00000;" ><strong>Intermediário</strong></div>';
       sidebar.appendChild(intermediario);
 
       // Creates the image which is used as the drag icon (preview)
@@ -201,8 +233,9 @@ export default {
       //Cria a imagem que serve de ícone da barra lateral (fonte de arrastar) - cliente
       let cliente = document.createElement("div");
       cliente.style.cursor = "pointer";
-      cliente.style.backgroundColor = "yellow";
-      cliente.style.margin = "30px";
+      //cliente.style.backgroundColor = "yellow";
+      cliente.style.background = `url("${require("../assets/cliente.png")}")`;
+      cliente.style.margin = "25px";
       cliente.style.width = "200px";
       cliente.style.height = "60px";
       cliente.style.textAlign = "center";
@@ -222,8 +255,9 @@ export default {
       //Cria a imagem que serve de ícone da barra lateral (fonte de arrastar) - fornecedor
       let fornecedor = document.createElement("div");
       fornecedor.style.cursor = "pointer";
-      fornecedor.style.backgroundColor = "#FFA500";
-      fornecedor.style.margin = "30px";
+      //fornecedor.style.backgroundColor = "#FFA500";
+      fornecedor.style.background = `url("${require("../assets/fornecedor.png")}")`;
+      fornecedor.style.margin = "25px";
       fornecedor.style.width = "200px";
       fornecedor.style.height = "60px";
       fornecedor.style.textAlign = "center";
@@ -245,7 +279,7 @@ export default {
       empresa.style.cursor = "pointer";
       empresa.style.backgroundColor = "blue";
       //empresa.style.background = `url("${require("../public/mx/images/warning.png")}")`;
-      empresa.style.margin = "30px";
+      empresa.style.margin = "25px";
       empresa.style.width = "200px";
       empresa.style.height = "60px";
       empresa.style.textAlign = "center";
@@ -271,7 +305,7 @@ export default {
         // Exibe uma mensagem de erro se o navegador não for compatível.
         mxUtils.error("Navegador não suportado!", 200, false);
       } else {
-        // mxConnectionHandler.prototype.connectImage = new mxImage(
+        /// mxConnectionHandler.prototype.connectImage = new mxImage(
         //   require("../assets/handle-connect.png"),
         //   18,
         //   18
@@ -306,6 +340,7 @@ export default {
         sidebar.style.left = "20px";
         sidebar.style.top = "80px";
         sidebar.style.width = "230px";
+        sidebar.style.height = "785px";
         sidebar.style.bottom = "40px";
         sidebar.style.display = "flex";
         sidebar.style.flexDirection = "column-reverse";
@@ -325,9 +360,12 @@ export default {
 
         // gerenciamento de conexão global
         editor.graph.setConnectable(true);
+        editor.graph.setEnabled(true); // novo
+        editor.graph.setTooltips(true); //novo
         editor.graph.setCellsDisconnectable(true);
         editor.graph.setPanning(true);
         editor.graph.setAllowDanglingEdges(false);
+        //editor.graph.setTextContent(true);
 
         // altera o selecionado em um painel separado
         editor.graph.getSelectionModel().addListener(mxEvent.CHANGE, () => {
@@ -340,14 +378,23 @@ export default {
         editor.graph.dropEnabled = true;
 
         //Os campos são rótulos HTML criados dinamicamente
-        editor.graph.isHtmlLabel = function (cell) {
-          return !this.isSwimlane(cell) && !this.model.isEdge(cell);
-        };
+        // editor.graph.isHtmlLabel = function (cell) {
+        //   return !this.isSwimlane(cell) && !this.model.isEdge(cell);
+        // };
 
-        // não editável
+        // gráfico editável
         editor.graph.isCellEditable = function () {
           return true;
         };
+
+        // remover grafico
+        editor.graph.removeFromParent = function () {
+          return true;
+        };
+
+        // mxCell.prototype.remove = function (index) {
+        //   return mxGraph.prototype.remove.apply(index);
+        // };
 
         // Retorna a propriedade do nome do objeto de usuário para o rótulo
         editor.graph.convertValueToString = function (cell) {
@@ -357,40 +404,41 @@ export default {
           return mxGraph.prototype.convertValueToString.apply(this, arguments); // "supercall"
         };
 
-        // Cria um rótulo HTML dinâmico para propriedades
-        editor.graph.getLabel = function (cell) {
-          console.log("getLabel ", cell.value.name);
-          if (cell && this.isHtmlLabel(cell) && cell.value) {
-            let label = "";
-            label +=
-              '<div style="width: 100%; display: flex; justify-content: space-between; align-items: center"; >';
-            label +=
-              '<div style="width: 100px; margin-left: 10px; font-weight: 600"; >' +
-              "<strong>" +
-              mxUtils.htmlEntities(cell.value.name, true) +
-              "</strong>" +
-              "</div>";
+        // // Cria um rótulo HTML dinâmico para propriedades
+        // editor.graph.getLabel = function (cell) {
+        //   console.log("getLabel ", cell.value.name);
+        //   if (cell && this.isHtmlLabel(cell) && cell.value) {
+        //     let label = "";
+        //     label +=
+        //       '<div style="width: 100%; display: flex; justify-content: space-between; align-items: center"; >';
+        //     label +=
+        //       '<div style="width: 100px; margin-left: 10px; font-weight: 600"; >' +
+        //       "<strong>" +
+        //       mxUtils.htmlEntities(cell.value.name, true) +
+        //       "</strong>" +
+        //       "</div>";
 
-            label += "</div>";
+        //     label += "</div>";
 
-            return label;
-          }
+        //     return label;
+        //   }
 
-          return mxGraph.prototype.getLabel.apply(this, arguments); // "supercall"
-        };
+        //   return mxGraph.prototype.getLabel.apply(this, arguments); // "supercall"
+        // };
 
         // Adiciona o ícone da barra lateral para o objeto de propriedade
-        let customObject = new window.Empresa();
+        let customObject = new window.Cliente();
 
         let object = new mxCell(
           customObject,
-          new mxGeometry(0, 0, 200, 50),
-          ""
+          new mxGeometry(0, 0, 200, 60),
+          "fillColor=blue;strokeColor=white;fontColor=white;"
           // new image para passar a imagem ao invés de um objeto retangular
         );
         object.setVertex(true);
         object.setConnectable(true);
-
+        //mxCell.prototype.removeFromParent = function();
+        //console.log(object);
         this.addSidebarIcon(editor.graph, sidebar, object);
       }
     },
@@ -416,6 +464,7 @@ export default {
         obj = Object.assign(beatyObj, obj);
         return obj;
       };
+
       mxCodecRegistry.register(codecCustomUserObject);
 
       // chama o metodo criador do grafico

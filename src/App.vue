@@ -18,7 +18,7 @@ export default {
     //GraphWrapper
     //Fornecedor,
     //Cliente,
-    Modelagem,
+    //Modelagem,
     //sidebar,
     //Empresa,
     //Fornecedor,
